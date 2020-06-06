@@ -50,7 +50,8 @@ public class QuizServiceImpl implements QuizService {
 	public Quiz updateQuiz(Quiz quiz, int id) {
 		Quiz existquiz = quizRepository.findById(quiz.getId()).orElse(null);
 		existquiz.setTitre(quiz.getTitre());
-		existquiz.setQuestion(quiz.getQuestion());
+		//existquiz.setQuestion(quiz.getQuestion());
+		quiz.getQuestion().forEach(existquiz::addQuestion);
 		return quizRepository.save(existquiz);
 	}
 
