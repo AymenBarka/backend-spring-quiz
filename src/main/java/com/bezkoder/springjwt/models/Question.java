@@ -9,13 +9,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
 public class Question {
 	    @Id
-	    @GeneratedValue(strategy=GenerationType.AUTO)
+	    @GeneratedValue(strategy=GenerationType.IDENTITY)
 	    private int id;
 	    private String questionName;
 	    private String option1;
@@ -25,6 +26,7 @@ public class Question {
 	    private String reponse;
 	    @ManyToOne(fetch=FetchType.EAGER, optional=false)
 	    @JoinColumn(name= "quiz_id",referencedColumnName = "id")
+	    @JsonIgnore
 	    private Quiz quiz;
 		public Question() {
 			
@@ -101,6 +103,11 @@ public class Question {
 					+ option2 + ", option3=" + option3 + ", option4=" + option4 + ", reponse=" + reponse + ", quiz="
 					+ quiz + "]";
 		}
+
+
+
+
+
 		
 
 }

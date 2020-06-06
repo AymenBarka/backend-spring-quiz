@@ -23,7 +23,7 @@ public class QuestionServiceImpl implements QuestionService{
 	
 	
 	@Override
-	public Question getId_Question(Integer id_Question) {
+	public Question getId_Question(int id_Question) {
 		// TODO Auto-generated method stub
 		return questionrepository.getOne(id_Question);
 	}

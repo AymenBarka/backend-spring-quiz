@@ -49,18 +49,17 @@ public class QuizServiceImpl implements QuizService {
 	@Override
 	public Quiz updateQuiz(Quiz quiz, int id) {
 		Quiz existquiz = quizRepository.findById(quiz.getId()).orElse(null);
-		
 		existquiz.setTitre(quiz.getTitre());
 		existquiz.setQuestion(quiz.getQuestion());
 		return quizRepository.save(existquiz);
 	}
 
 	@Override
-	public String deleteQuiz(int id_quiz) {
-		Optional<Quiz>quiz = quizRepository.findById(id_quiz);
+	public String deleteQuiz(int id) {
+		Optional<Quiz>quiz = quizRepository.findById(id);
 		if(quiz.isPresent()) {
 			quizRepository.delete(quiz.get());
-			return "quiz is delayted by id" + id_quiz;
+			return "quiz is delayted by id" + id;
 		}
 		throw new RuntimeException ("Not Found Quiz");
 

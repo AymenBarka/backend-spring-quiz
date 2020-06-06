@@ -11,7 +11,7 @@ public interface QuizService {
 	public Quiz getQuizbyId(int id);
 	List <Quiz> getAll() ;
 	 void AjoutlistQuiz(List<Quiz> quiz);
-	 public  Quiz updateQuiz(Quiz quiz, int id);
-	 public String deleteQuiz(int id_quiz);
+	 public  Quiz updateQuiz(Quiz quiz,int id);
+	 public String deleteQuiz(int id);
 
 }

@@ -17,16 +17,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Quiz {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String titre;
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "quiz" , cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "quiz", cascade = { CascadeType.ALL}, orphanRemoval=true)
 	@JsonIgnoreProperties("quiz")
 	private List<Question> question;
 	public Quiz() {
 		
+		
 	}
-	public int getId() {
+	
+		
+	public  int getId() {
 		return id;
 	}
 	public void setId(int id) {
@@ -44,6 +47,7 @@ public class Quiz {
 	public void setQuestion(List<Question> question) {
 		this.question = question;
 	}
+	
 	@Override
 	public String toString() {
 		return "Quiz [id=" + id + ", titre=" + titre + ", question=" + question + "]";
