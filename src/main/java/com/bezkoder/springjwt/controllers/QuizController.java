@@ -26,13 +26,14 @@ import com.bezkoder.springjwt.security.services.QuizService;
 public class QuizController {
 	@Autowired
 	QuizService quizService;
-	@RequestMapping(path = "/add", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('CANDIDAT') or hasRole('COACH') or hasRole('ADMIN')")
+	
+	int score;
 
+	@RequestMapping(path = "/add", method = RequestMethod.POST)
+	@PreAuthorize(" hasRole('COACH') or hasRole('ADMIN')")
 	public void addQuiz(@RequestBody Quiz quiz){
 		quiz.getQuestion().forEach(question -> {
 			question.setQuiz(quiz);
-			//question.getListReponses().forEach(reponse -> reponse.setQuestion(question));
 		});
 		quizService.AjoutlistQuiz(Collections.singletonList(quiz));
 	}
@@ -50,11 +51,12 @@ public class QuizController {
 	}
 	
 	@PutMapping("UpdateQuiz/{id}")
+	@PreAuthorize(" hasRole('COACH') or hasRole('ADMIN')")
 	public Quiz updateQuiz(@RequestBody Quiz quiz, @PathVariable (value="id")int id) {
 		return quizService.updateQuiz(quiz, id);
 	}
 	@RequestMapping(path = "/deleteQuiz/{id}", method = RequestMethod.DELETE)
-	@PreAuthorize("hasRole('CANDIDAT') or hasRole('COACH') or hasRole('ADMIN')")
+	@PreAuthorize(" hasRole('COACH') or hasRole('ADMIN')")
 	public String deleteQuiz(@PathVariable(value ="id")int id) {
 		return quizService.deleteQuiz(id);
 	}
@@ -65,7 +67,37 @@ public class QuizController {
 		return quizService.getQuizbyId(id);
 	}
 	
-	
-	
+	@RequestMapping(path = "/calculQuiz" , method = RequestMethod.GET)
+	public int getQuiz(Quiz quiz) {
+		
+		quiz.getQuestion().forEach(question -> {
+			question.getQuiz();
+			if(question.getOption1()==question.getReponse()) {
+				
+				System.out.println(question.getOption1() + "/" + question.getReponse() + "/ " + "bonne réponse");
+				this.score = this.score + 3;
+				
+			}else if(question.getOption2()==question.getReponse()) {
+				
+				System.out.println(question.getOption2() + "/" + question.getReponse() + "/ " + "bonne réponse");
+				this.score = this.score + 3;
+
+			}else if (question.getOption3()==question.getReponse()) {
+				
+				System.out.println(question.getOption3() + "/" + question.getReponse() + "/ " + "bonne réponse");
+				this.score = this.score + 3;
+
+			}else if (question.getOption4()==question.getReponse()) {
+				
+				System.out.println(question.getOption4() + "/" + question.getReponse() + "/ " + "bonne réponse");
+				this.score = this.score + 3;
+
+			}else {
+				this.score = this.score -1;
+			}
+		});
+		if (this.score<=0) this.score = 0;
+		return this.score;
+	}
 	
 }

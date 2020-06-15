@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bezkoder.springjwt.models.Question;
 import com.bezkoder.springjwt.models.Quiz;
+import com.bezkoder.springjwt.repository.QuestionRepository;
 import com.bezkoder.springjwt.repository.QuizRepository;
 
 
@@ -15,6 +17,8 @@ import com.bezkoder.springjwt.repository.QuizRepository;
 public class QuizServiceImpl implements QuizService {
 	@Autowired
 	QuizRepository quizRepository;
+	@Autowired
+	QuestionRepository questionRepo;
 
 	@Override
 	public void AjoutQuiz(Quiz quiz) {
@@ -50,8 +54,8 @@ public class QuizServiceImpl implements QuizService {
 	public Quiz updateQuiz(Quiz quiz, int id) {
 		Quiz existquiz = quizRepository.findById(quiz.getId()).orElse(null);
 		existquiz.setTitre(quiz.getTitre());
-		//existquiz.setQuestion(quiz.getQuestion());
 		quiz.getQuestion().forEach(existquiz::addQuestion);
+			
 		return quizRepository.save(existquiz);
 	}
 

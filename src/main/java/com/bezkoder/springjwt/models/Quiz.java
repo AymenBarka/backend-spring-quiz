@@ -1,8 +1,10 @@
 package com.bezkoder.springjwt.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,22 +21,23 @@ public class Quiz {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id", unique=true,nullable = false)
 	private int id;
 	private String titre;
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "quiz", cascade = { CascadeType.ALL}, orphanRemoval=true)
-	@JsonIgnoreProperties("quiz")
-	private List<Question> question;
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "quiz", cascade =  CascadeType.ALL)
+	private List<Question> question = new ArrayList<>();
 	public Quiz() {
 		
 		
 	}
 	public void addQuestion(Question question) {
 		this.question.add(question);
+		question.setQuiz(this);
 		
 	}
-	public void removeQuestion(Question questions) {
+	public void removeQuestion(Question question) {
 		this.question.remove(question);
-		questions.setQuiz(null);
+		question.setQuiz(null);
 	}
 	
 		
