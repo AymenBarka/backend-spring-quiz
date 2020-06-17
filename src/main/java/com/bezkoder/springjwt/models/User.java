@@ -1,6 +1,8 @@
 package com.bezkoder.springjwt.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -40,6 +42,12 @@ public class User {
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+	@OneToMany( cascade =  CascadeType.ALL)
+	@JoinColumn(name = "users_id")
+
+	private List <Resultat>resultats=new ArrayList<>();
+
+
 
 	public User() {
 	}
@@ -100,4 +108,15 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+
+	public List<Resultat> getResultats() {
+		return resultats;
+	}
+
+	public void setResultats(List<Resultat> resultats) {
+		this.resultats = resultats;
+	}
+
+	
+	
 }

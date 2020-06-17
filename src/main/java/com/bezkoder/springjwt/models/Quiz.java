@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 
@@ -26,6 +27,9 @@ public class Quiz {
 	private String titre;
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "quiz", cascade =  CascadeType.ALL)
 	private List<Question> question = new ArrayList<>();
+	@OneToMany( cascade =  CascadeType.ALL)
+	@JoinColumn(name = "quiz_id")
+	private List <Resultat>resultats=new ArrayList<>();
 	public Quiz() {
 		
 		
@@ -64,8 +68,16 @@ public class Quiz {
 		this.question = question;
 	}
 	
+	
 
 
+	
+	public List<Resultat> getResultats() {
+		return resultats;
+	}
+	public void setResultats(List<Resultat> resultats) {
+		this.resultats = resultats;
+	}
 	@Override
 	public String toString() {
 		return "Quiz [id=" + id + ", titre=" + titre + ", question=" + question + "]";
