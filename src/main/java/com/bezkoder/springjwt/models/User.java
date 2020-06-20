@@ -10,6 +10,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(	name = "users", 
 		uniqueConstraints = { 
@@ -42,10 +44,9 @@ public class User {
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
-	@OneToMany( cascade =  CascadeType.ALL)
-	@JoinColumn(name = "users_id")
-
-	private List <Resultat>resultats=new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user")
+	private List <Resultat> resultat;
 
 
 
@@ -109,12 +110,12 @@ public class User {
 		this.roles = roles;
 	}
 
-	public List<Resultat> getResultats() {
-		return resultats;
+	public List<Resultat> getResultat() {
+		return resultat;
 	}
 
-	public void setResultats(List<Resultat> resultats) {
-		this.resultats = resultats;
+	public void setResultat(List<Resultat> resultat) {
+		this.resultat = resultat;
 	}
 
 	

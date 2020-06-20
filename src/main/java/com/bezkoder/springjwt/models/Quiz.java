@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -27,12 +27,17 @@ public class Quiz {
 	private String titre;
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "quiz", cascade =  CascadeType.ALL)
 	private List<Question> question = new ArrayList<>();
-	@OneToMany( cascade =  CascadeType.ALL)
-	@JoinColumn(name = "quiz_id")
-	private List <Resultat>resultats=new ArrayList<>();
+	
+	@OneToMany(mappedBy = "quiz")
+	private List <Resultat> resultat;
+	
 	public Quiz() {
 		
-		
+	}
+	
+	public void  addResultat(Resultat resultat) {
+		this.resultat.add(resultat);
+		resultat.setQuiz(this);
 	}
 	public void addQuestion(Question question) {
 		this.question.add(question);
@@ -68,16 +73,14 @@ public class Quiz {
 		this.question = question;
 	}
 	
-	
-
-
-	
-	public List<Resultat> getResultats() {
-		return resultats;
+	public List<Resultat> getResultat() {
+		return resultat;
 	}
-	public void setResultats(List<Resultat> resultats) {
-		this.resultats = resultats;
+	public void setResultat(List<Resultat> resultat) {
+		this.resultat = resultat;
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "Quiz [id=" + id + ", titre=" + titre + ", question=" + question + "]";

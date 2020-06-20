@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bezkoder.springjwt.models.Quiz;
 import com.bezkoder.springjwt.models.Resultat;
 import com.bezkoder.springjwt.models.User;
+import com.bezkoder.springjwt.payload.request.CalculQuizRequest;
 import com.bezkoder.springjwt.repository.ResultatRepository;
 import com.bezkoder.springjwt.security.services.QuizService;
 import com.bezkoder.springjwt.security.services.ResultatServiceImpl;
@@ -73,12 +74,26 @@ public class QuizController {
 	}
 	
 	@RequestMapping(path = "/calculQuiz" , method = RequestMethod.POST)
-	public void AddResultat(@RequestBody Resultat resultats) {
+	public void AddResultat(@RequestBody CalculQuizRequest calculQuizRequest) {
+		System.out.println(" Resultat content"+ calculQuizRequest);
                Resultat resultat = new Resultat();
-               resultat.setScore(resultats.getScore());
-               
-               resultatservice.AddResultat(resultats);
-		
+               resultat.setScore(calculQuizRequest.getScore());
+               resultat.setQuiz(calculQuizRequest.getQuiz());
+               resultat.setUser(calculQuizRequest.getUser());
+               resultatservice.AddResultat(resultat);
+                
+             /* 
+              Quiz quiz = calculQuizRequest.getQuiz(); 
+              List<Resultat> resultats = quiz.getResultat(); 
+              resultats.add(resultat); 
+              quiz.setResultat(resultats);
+             User user = calculQuizRequest.getUser(); 
+              List<Resultat> resultatsUser = user.getResultat(); 
+              resultatsUser.add(resultat); 
+              user.setResultat(resultatsUser);
+           
+              
+              return quizService.updateQuiz(quiz, quiz.getId());*/		
 	}
 	
 }
